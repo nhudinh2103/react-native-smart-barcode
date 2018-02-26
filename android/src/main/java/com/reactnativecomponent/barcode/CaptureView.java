@@ -818,6 +818,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
         CameraManager.init(activity);
 
+        this.width = width; // Workaround for app start and stop
         initCameraManager();
 
         surfaceTexture = surface;
