@@ -254,9 +254,8 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
 
 
-        vibrate = true;
-
         setPlayBeep(true);
+        setVibrate(true);
 //        initProgressBar();
 //        progressBar = new VerticalSeekBar(activity);
       /*  popupWindowContent = View.inflate(activity, R.layout.seekbar_layout, null);
@@ -331,6 +330,14 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
            playBeep = false;
         }
         initBeepSound();
+    }
+
+    public void setVibrate(boolean b) {
+        vibrate = b;
+        AudioManager audioService = (AudioManager) activity.getSystemService(activity.AUDIO_SERVICE);
+        if (audioService.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+            vibrate = false;
+        }
     }
 
 
@@ -505,9 +512,21 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
 
     private void playBeepSoundAndVibrate() {
-        if (playBeep && mediaPlayer != null) {
-            mediaPlayer.start();
+
+        AudioManager audioManager = (AudioManager) activity.getSystemService(activity.AUDIO_SERVICE);
+        int volume_level = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        if (volume_level == 0) {
+            if (vibrate) {
+                        Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
+                        vibrator.vibrate(VIBRATE_DURATION);
+            }
+        } else {
+            if (playBeep && mediaPlayer != null) {
+                        mediaPlayer.start();
+            }
         }
+
         //抖动机身
       /*  if (vibrate) {
             Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
