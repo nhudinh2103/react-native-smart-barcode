@@ -975,7 +975,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                         zoom--;
                 }
                 mFingerSpacing = newDist;
-                setZoom(zoom);
+                params.setZoom(zoom);
                 CameraManager.get().getCamera().setParameters(params);
         }
 
