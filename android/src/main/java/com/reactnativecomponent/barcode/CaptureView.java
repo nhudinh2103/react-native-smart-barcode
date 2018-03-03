@@ -851,6 +851,11 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         initCameraManager();
 
         surfaceTexture = surface;
+        try {
+            CameraManager.get().setPreviewTexture(surface);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         textureView.setAlpha(1.0f);
