@@ -61,10 +61,18 @@ export default class Barcode extends Component {
     }
 
     startScan() {
-        BarcodeManager.startSession()
+        BarcodeManager.startScan()
     }
 
     stopScan() {
+        BarcodeManager.stopScan()
+    }
+
+    startSession() {
+        BarcodeManager.startSession()
+    }
+
+    stopSession() {
         BarcodeManager.stopSession()
     }
 
