@@ -1,21 +1,16 @@
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
 apply plugin: 'com.android.library'
 
-def ext = rootProject.ext
-
-def projectReactNativeVersion = ext.has('reactNativeVersion') ? ext.reactNativeVersion : '+'
-def projectCompileSdkVersion = ext.has('compileSdkVersion') ? ext.compileSdkVersion : 23
-def projectBuildToolsVersion = ext.has('buildToolsVersion') ? ext.buildToolsVersion : '23.0.3'
-def projectMinSdkVersion = ext.has('minSdkVersion') ? ext.minSdkVersion : 16
-def projectTargetSdkVersion = ext.has('targetSdkVersion') ? ext.targetSdkVersion : 23
-
-
 android {
-    compileSdkVersion projectCompileSdkVersion
-    buildToolsVersion projectBuildToolsVersion
+    compileSdkVersion safeExtGet('compileSdkVersion', 23)
+    buildToolsVersion safeExtGet('buildToolsVersion', '23.0.3')
 
     defaultConfig {
-        minSdkVersion projectMinSdkVersion
-        targetSdkVersion projectTargetSdkVersion
+        minSdkVersion safeExtGet('minSdkVersion', 16)
+        targetSdkVersion safeExtGet('targetSdkVersion', 23)
         versionCode 1
         versionName "1.0"
     }
@@ -30,6 +25,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.facebook.react:react-native:${projectReactNativeVersion}'
+    implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
     compile 'com.google.zxing:core:3.3.2'
 }
